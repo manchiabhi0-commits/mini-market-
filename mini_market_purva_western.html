@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mini Market — Purva Western</title>
+<style>
+:root{--green:#16853b;--dark:#105c2b;--lime:#dff5a5;--yellow:#ffd84d;--cream:#fffdf5;--ink:#173322}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f5f8f1;color:var(--ink)}
+header{background:linear-gradient(120deg,#16853b,#29a653);color:white;padding:18px max(18px,calc((100% - 1100px)/2));}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:25px;font-weight:900;letter-spacing:-1px}.brand span{color:var(--yellow)}.loc{font-size:13px;opacity:.95}
+.hero{max-width:1100px;margin:20px auto;padding:26px 22px;border-radius:22px;background:linear-gradient(120deg,#e4f7b7,#fff1a7);display:flex;justify-content:space-between;align-items:center;gap:18px;overflow:hidden}
+.hero h1{font-size:clamp(27px,5vw,44px);line-height:1.05;margin:0 0 10px;color:#145c2d}.hero p{margin:0 0 16px;color:#31543a}.hero .tag{font-size:12px;font-weight:800;letter-spacing:1px;color:#39733b}.hero .emoji{font-size:90px;filter:drop-shadow(0 8px 8px #a5b77955)}
+main{max-width:1100px;margin:0 auto;padding:0 18px 40px}.searchrow{display:flex;gap:10px;margin:18px 0}.searchrow input{flex:1;padding:14px 16px;border:1px solid #dce5d8;border-radius:14px;font-size:16px;background:white}
+.categories{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0 22px}.cat{border:0;background:white;border:1px solid #dce5d8;border-radius:999px;padding:10px 15px;font-weight:700;cursor:pointer}.cat.active{background:#16853b;color:white;border-color:#16853b}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:18px 0}.sectionhead h2{margin:0;font-size:22px}.muted{color:#708071;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.product{background:white;border:1px solid #e7ece3;border-radius:18px;padding:14px;display:flex;flex-direction:column;min-height:235px}.pic{height:100px;background:#f2f8e9;border-radius:13px;display:grid;place-items:center;font-size:54px;margin-bottom:12px}.product h3{margin:0 0 5px;font-size:15px}.unit{color:#7b897c;font-size:12px}.price{font-weight:850;margin:9px 0 12px}.add{margin-top:auto;border:0;background:#e6f6d4;color:#17652f;border-radius:11px;padding:10px;font-weight:800;cursor:pointer}.add:hover{background:#d5efb8}
+.panel{background:white;border:1px solid #e4eae0;border-radius:18px;padding:18px;margin-top:25px}.panel h2{margin:0 0 12px}.cartline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #edf1e9}.qty button{border:1px solid #dce5d8;background:#f7faf4;border-radius:7px;padding:4px 9px;cursor:pointer}.qty{display:flex;align-items:center;gap:8px}.total{display:flex;justify-content:space-between;font-size:18px;font-weight:850;margin:16px 0}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fields input,.fields select{width:100%;padding:12px;border:1px solid #dce5d8;border-radius:11px;font:inherit;background:white}.wide{grid-column:1/-1}.checkout{width:100%;padding:14px;border:0;border-radius:12px;background:#16853b;color:white;font-weight:850;font-size:16px;cursor:pointer}.checkout:hover{background:#105c2b}.notice{margin-top:12px;padding:12px;border-radius:12px;background:#f0f8df;color:#275d2c;display:none}
+footer{text-align:center;color:#829083;padding:25px;font-size:13px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.hero .emoji{font-size:65px}.fields{grid-template-columns:1fr}}
+@media(max-width:420px){.hero .emoji{display:none}.product{padding:10px}.pic{height:85px}.grid{gap:10px}}
+</style>
+</head>
+<body>
+<header><div class="top"><div><div class="brand">🛒 MINI <span>MARKET</span></div><div class="loc">📍 Delivering inside Purva Western</div></div><div>🧺 <b id="cartCount">0</b> items in cart</div></div></header>
+<section class="hero"><div><div class="tag">YOUR NEIGHBOURHOOD GROCERY STORE</div><h1>Shop Fresh.<br>Live Better.</h1><p>Everyday essentials, delivered to your flat.</p></div><div class="emoji">🥬🍎</div></section>
+<main>
+<div class="searchrow"><input id="search" placeholder="Search milk, fruits, snacks…" aria-label="Search products"></div>
+<div class="categories" id="categories"></div>
+<div class="sectionhead"><h2>Fresh picks</h2><span class="muted">Demo prices · ₹</span></div>
+<div class="grid" id="products"></div>
+<section class="panel" id="cart"><h2>🧺 Your cart</h2><div id="cartItems"><p class="muted">Your cart is empty. Add some groceries above!</p></div><div class="total"><span>Total</span><span id="total">₹0</span></div>
+<h2>Delivery details</h2><p class="muted">Orders are for Purva Western residents only.</p>
+<div class="fields"><input id="customer" placeholder="Your name"><input id="flat" placeholder="Tower / flat number"><input id="phone" class="wide" placeholder="Phone number" inputmode="tel"><select id="payment" class="wide"><option>Cash on Delivery (demo)</option><option>Online payment (not connected)</option></select></div><br><button class="checkout" onclick="placeOrder()">Place demo order</button><div class="notice" id="notice"></div></section>
+</main><footer>Mini Market · Purva Western · Shop Fresh. Live Better.<br>Demo only — orders and payments are not sent to a store.</footer>
+<script>
+const items=[
+{id:1,name:"Farm Fresh Milk",unit:"1 litre",price:68,emoji:"🥛",cat:"Dairy"},
+{id:2,name:"Bananas",unit:"1 dozen",price:60,emoji:"🍌",cat:"Fruits"},
+{id:3,name:"Tomatoes",unit:"500 g",price:30,emoji:"🍅",cat:"Vegetables"},
+{id:4,name:"Potatoes",unit:"1 kg",price:40,emoji:"🥔",cat:"Vegetables"},
+{id:5,name:"Apples",unit:"500 g",price:110,emoji:"🍎",cat:"Fruits"},
+{id:6,name:"Bread",unit:"1 pack",price:45,emoji:"🍞",cat:"Bakery"},
+{id:7,name:"Eggs",unit:"6 pieces",price:48,emoji:"🥚",cat:"Dairy"},
+{id:8,name:"Rice",unit:"1 kg",price:75,emoji:"🍚",cat:"Staples"},
+{id:9,name:"Orange juice",unit:"1 litre",price:120,emoji:"🧃",cat:"Drinks"},
+{id:10,name:"Biscuits",unit:"1 pack",price:30,emoji:"🍪",cat:"Snacks"},
+{id:11,name:"Spinach",unit:"1 bunch",price:25,emoji:"🥬",cat:"Vegetables"},
+{id:12,name:"Onions",unit:"1 kg",price:45,emoji:"🧅",cat:"Vegetables"}
+];let cart={},active="All";
+const cats=["All","Fruits","Vegetables","Dairy","Bakery","Staples","Snacks","Drinks"];
+function renderCats(){document.getElementById("categories").innerHTML=cats.map(c=>`<button class="cat ${active===c?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("")}
+function setCat(c){active=c;renderCats();renderProducts()}
+function renderProducts(){let q=document.getElementById("search").value.toLowerCase();let filtered=items.filter(p=>(active==="All"||p.cat===active)&&p.name.toLowerCase().includes(q));document.getElementById("products").innerHTML=filtered.map(p=>`<article class="product"><div class="pic">${p.emoji}</div><h3>${p.name}</h3><div class="unit">${p.unit}</div><div class="price">₹${p.price}</div><button class="add" onclick="add(${p.id})">＋ Add to cart</button></article>`).join("")||"<p>No products found.</p>"}
+function add(id){cart[id]=(cart[id]||0)+1;renderCart()}
+function change(id,d){cart[id]+=d;if(cart[id]<=0)delete cart[id];renderCart()}
+function renderCart(){let ids=Object.keys(cart);document.getElementById("cartCount").textContent=ids.reduce((s,id)=>s+cart[id],0);document.getElementById("cartItems").innerHTML=ids.length?ids.map(id=>{let p=items.find(x=>x.id==id);return `<div class="cartline"><div><b>${p.emoji} ${p.name}</b><div class="muted">₹${p.price} each</div></div><div class="qty"><button onclick="change(${id},-1)">−</button><b>${cart[id]}</b><button onclick="change(${id},1)">＋</button></div><b>₹${p.price*cart[id]}</b></div>`}).join(""):"<p class='muted'>Your cart is empty. Add some groceries above!</p>";let total=ids.reduce((s,id)=>s+items.find(p=>p.id==id).price*cart[id],0);document.getElementById("total").textContent="₹"+total}
+function placeOrder(){let n=document.getElementById("customer").value.trim(),f=document.getElementById("flat").value.trim(),ph=document.getElementById("phone").value.trim();let notice=document.getElementById("notice");notice.style.display="block";if(!Object.keys(cart).length){notice.textContent="Please add groceries to your cart first.";return}if(!n||!f||!ph){notice.textContent="Please enter your name, tower/flat number and phone.";return}notice.textContent=`Demo order prepared for ${n}, ${f} at Purva Western. No real order was sent. Connect a store/admin system to receive orders.`}
+document.getElementById("search").addEventListener("input",renderProducts);renderCats();renderProducts();renderCart();
+</script>
+</body></html>
